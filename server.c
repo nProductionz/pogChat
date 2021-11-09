@@ -3,12 +3,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <sys/socket.h>
 
-int sockfd = 0;
-char username[36];
+#define MAX_CLIENTS 20
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv){
     
 }
-
