@@ -9,3 +9,4 @@
 
 void send_message(char *s, int uid);
 void *handle_client(void *arg);
+void print_client_addr(struct sockaddr_in addr);

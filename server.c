@@ -11,7 +11,14 @@ typedef struct {
 
 client_t *clients[MAX_CLIENTS];
 
-
+// funzione per stampare l'indirizzo di un client
+void print_client_addr(struct sockaddr_in addr){
+    printf("%d.%d.%d.%d",
+    addr.sin_addr.s_addr & 0xff,
+    (addr.sin_addr.s_addr & 0xff00) >> 8,
+    (addr.sin_addr.s_addr & 0xff0000) >> 16,
+    (addr.sin_addr.s_addr & 0xff000000) >> 24);
+}
 
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 
@@ -147,6 +154,9 @@ int main(int argc, char **argv){
             close(connfd);
             continue;
         }
+    
+        
+    
     }
 
 
