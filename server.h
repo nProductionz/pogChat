@@ -3,6 +3,13 @@
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+
 
 #define MAX_CLIENTS 20
 #define BUFFER_SIZE 2048
