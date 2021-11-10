@@ -155,9 +155,17 @@ int main(int argc, char **argv){
             continue;
         }
     
-        
+        // Impostazioni del Client
+        client_t *client = (client_t *)malloc(sizeof(client_t));    // aggiunta indrizzo e id
+        client->address = client_addr;
+        client->sockfd = connfd;
+        client->uid = uid++;
     
+        // vanno aggiunti in coda i client creati
+        pthread_create(&tid, NULL, &handle_client, (void*)client);
+
+        sleep(1);
     }
 
-
+    return EXIT_SUCCESS;
 }
