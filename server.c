@@ -19,6 +19,26 @@ typedef struct {
 client_t *clients[MAX_CLIENTS];
 
 
+pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+// Funzione che permette di inviare i messaggi ai vari client
+
+void send_message(char *s, int uid) {
+    pthread_mutex_lock(&clients_mutex); // creare i thread nel main
+
+    for(int  i=0; i<MAX_CLIENTS; ++i){
+        if(clients[i]){
+            if(clients[i]->uid != uid) {
+                if(write(clients{i}->sockfd, s, strlen(s)) < 0) {
+                    perror("ERROR: write to descriptor failed");
+                    break;
+                }
+            }
+        }
+    }
+    pthread_mutex_unlock(&clients_mutex);
+}
+
 static _Atomic unsigned int client_counter = 0;
 void *handle_client(void *arg) {
     char buffer_output[BUFFER_SIZE];
