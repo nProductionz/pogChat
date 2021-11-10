@@ -85,7 +85,7 @@ void *handle_client(void *arg) {
         strcpy(client->username, username);
         sprintf(buffer_output, "%s has joined the chatroom\n", client->username);
         printf("%s", buffer_output);    
-        // deve fa morì il client 
+        send_message(buffer_output, client->uid);
         }
 
     bzero(buffer_output, BUFFER_SIZE); // Ripulisce la memoria usara per il buffer
@@ -97,7 +97,7 @@ void *handle_client(void *arg) {
         int receive = recv(client->sockfd, buffer_output, BUFFER_SIZE, 0);
         if(receive > 0) {
             if(strlen(buffer_output) > 0){
-                // inviare il messaggio
+                send_message(buffer_output, client->uid);
 
                 printf("%s -> %s\n", buffer_output, client->username);
                 }
@@ -105,7 +105,7 @@ void *handle_client(void *arg) {
         else if (receive == 0 || strcmp(buffer_output, "exit") == 0) {
             sprintf(buffer_output, "%s ha abbandonato la chatroom.\n", client->username);
             printf("%s", buffer_output);
-            // mandare il messaggio di morte al client
+            send_message(buffer_output, client->uid);
             deadEnd_flag = 1;
         } else {
             printf("ERROR: -1\n");
