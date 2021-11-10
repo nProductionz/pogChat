@@ -10,6 +10,34 @@ typedef struct {
 } client_t;
 
 client_t *clients[MAX_CLIENTS];
+void queue_add(client_t *cl);
+
+// Funzione per aggiungere i client in coda
+void queue_add(client_t *cl){
+    pthread_mutex_lock(&clients_mutex);
+
+    for(int i=0; i < MAX_CLIENTS; ++i) {
+        if(!clients[i]){
+            clients[i] = cl;
+            break;
+        }
+    }
+    pthread_mutex_unlock(&clients_mutex);
+}
+
+// Funzione per rimuovere i client dalla coda
+void queue_remove(int uid){
+    pthread_mutex_lock(&clients_mutex);
+    for(int i=0; i < MAX_CLIENTS; ++i){
+        if(clients[i]){
+            if(clients[i]->uid == uid){
+                clients[i] == NULL;
+                break;
+            }
+        }
+    }
+    pthread_mutex_unlock(&clients_mutex);
+}
 
 // funzione per stampare l'indirizzo di un client
 void print_client_addr(struct sockaddr_in addr){
