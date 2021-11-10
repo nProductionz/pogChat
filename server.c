@@ -49,11 +49,34 @@ void *handle_client(void *arg) {
         if(receive > 0) {
             if(strlen(buffer_output) > 0){
                 // inviare il messaggio
+
                 printf("%s -> %s\n", buffer_output, client->username);
-            } else if (receive == 0 || strcmp(buffer_output, "exit") == 0) {}
+                }
+            }
+        else if (receive == 0 || strcmp(buffer_output, "exit") == 0) {
+            sprintf(buffer_output, "%s ha abbandonato la chatroom.\n", client->username);
+            printf("%s", buffer_output);
+            // mandare il messaggio di morte al client
+            deadEnd_flag = 1;
+        } else {
+            printf("ERROR: -1\n");
+            deadEnd_flag = 1;
         }
+        bzero(buffer_output, BUFFER_SIZE);
     }
+
+    // cancellare il client e liberare il thread
+    close(client->sockfd);
+
+    // il client va rimosso dalla coda, implementare la funzione
+
+    free(client);
+    client_counter--;
+    pthread_detach(pthread_self());
+
+    return NULL;
 }
+
 
 
 
