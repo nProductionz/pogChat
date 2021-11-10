@@ -116,9 +116,7 @@ void *handle_client(void *arg) {
 
     // cancellare il client e liberare il thread
     close(client->sockfd);
-
-    // il client va rimosso dalla coda, implementare la funzione
-
+    queue_remove(client);
     free(client);
     client_counter--;
     pthread_detach(pthread_self());
@@ -189,7 +187,7 @@ int main(int argc, char **argv){
         client->sockfd = connfd;
         client->uid = uid++;
     
-        // vanno aggiunti in coda i client creati
+        queue_add(client);
         pthread_create(&tid, NULL, &handle_client, (void*)client);
 
         sleep(1);
