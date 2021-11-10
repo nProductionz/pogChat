@@ -12,6 +12,7 @@ typedef struct {
 client_t *clients[MAX_CLIENTS];
 
 
+
 pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // Funzione che permette di inviare i messaggi ai vari client
@@ -139,6 +140,13 @@ int main(int argc, char **argv){
         connfd = accept(listenfd, (struct sockaddr*)&client_addr, &clientlen);
 
         // controllo se son stati accettati il massimo numero di client
+        if((client_counter + 1) == MAX_CLIENTS){
+            printf("Raggiunto il massimo numero di client. Rifiutato: ");
+            print_client_addr(client_addr);
+            printf(":%d\n", client_addr.sin_port);
+            close(connfd);
+            continue;
+        }
     }
 
 
