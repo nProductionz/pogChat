@@ -9,6 +9,17 @@ void catch_ctrl_c_exit(int sig) {
     deadEnd_flag = 1;
 }
 
+// trim per ripulire la stringa nel caso di andate a capo
+void str_trim (char* arr, int legth){
+    int i;
+    for( i = 0; i < length; i++) {
+        if(arr[i] == '\n'){
+            arr[i] = '\0';
+            break;
+        }
+    }
+}
+
 // per printare il nome prima del messaggio
 void str_overwrite_stdout() {
     printf("%s", "> ");
