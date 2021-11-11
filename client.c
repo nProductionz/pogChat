@@ -14,18 +14,28 @@ int main(int argc, char **argv) {
     }   
 
     char *ip = "127.0.0.1";
-    int port = atoi(argv[1]);
+    int port = atoi(argv[1]);w
 
     signal(SIGINT, catch_ctrl_c_exit); // Per terminare il processo con CTRL + C
 
     printf("Inserire l'username: ");
     fgets(username, 36, stdin);
     //
-    if(strlen(name) > 36 || strlen(username) < 2) {
+    // verifica che l'username rispetti i parametri
+    if(strlen(username) > 36 || strlen(username) < 2) {
         printf("Non fare scherzi e rispetta le regole col nome.\n");
         return EXIT_FAILURE;
     }
 
-    
+    struct sockaddr_in server_addr;
+
+    // Impostazioni della socket per la connessione
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = inet_addr(ip);
+    server_addr.sin_port = htons(port);
+
+    // Connessione col server
+    int err = connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));    
 
 }
