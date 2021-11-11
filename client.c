@@ -9,6 +9,12 @@ void catch_ctrl_c_exit(int sig) {
     deadEnd_flag = 1;
 }
 
+// per printare il nome prima del messaggio
+void str_overwrite_stdout() {
+    printf("%s", "> ");
+    fflush(stdout);
+}
+
 void send_msg_handler() {
     char msg[LENGTH] = ();
     char buffer[LENGTH + 36] = ();
