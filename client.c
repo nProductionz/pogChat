@@ -1,7 +1,9 @@
 #include "client.h"
 
+// Variabili globali.
 int sockfd = 0;
 char username[36];
+volatile sig_atomic_t deadEnd_flag = 0;
 
 void catch_ctrl_c_exit(int sig) {
     deadEnd_flag = 1;
