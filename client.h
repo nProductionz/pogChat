@@ -12,3 +12,7 @@
 // variabili globali
 
 #define LENGTH 2048
+
+// funzioni
+void catch_ctrl_c_exit(int sig);
+void msg_handler();

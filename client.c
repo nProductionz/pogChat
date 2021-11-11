@@ -7,6 +7,26 @@ void catch_ctrl_c_exit(int sig) {
     deadEnd_flag = 1;
 }
 
+void send_msg_handler() {
+    char msg[LENGTH] = ();
+    char buffer[LENGTH + 36] = ();
+    
+    while(1) {
+        fgets(msg, LENGTH, stdin);
+        //
+
+        if (strcmp(msg, "exit") == 0) {
+            break;  // uscire dalla chat
+        }   else    {
+            sprintf(buffer, "%s: %s\n", username, msg);
+            send(sockfd, buffer, strlen(buffer), 0);
+        }
+        bzero(msg, LENGTH);
+        bzero(buffer, LENGTH + 36);
+    }
+    catch_ctrl_c_exit(2);
+}
+
 int main(int argc, char **argv) {
     if(argc != 2){
         printf("Porta in uso: %s <port>\n", argv[0]);
@@ -14,7 +34,7 @@ int main(int argc, char **argv) {
     }   
 
     char *ip = "127.0.0.1";
-    int port = atoi(argv[1]);w
+    int port = atoi(argv[1]);
 
     signal(SIGINT, catch_ctrl_c_exit); // Per terminare il processo con CTRL + C
 
@@ -43,7 +63,7 @@ int main(int argc, char **argv) {
     }    
 
     // Inviare l'username al server
-    send(sockfd, username, 36, 0)
+    send(sockfd, username, 36, 0);
     // sperando che tutto funzioni...
     printf("+++ BENVENUTO NELLA POGCHAT +++\n");
     // Creare un thread per inviare e gestire i messaggi
