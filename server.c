@@ -58,7 +58,7 @@ void send_message(char *s, int uid) {
     for(int  i=0; i<MAX_CLIENTS; ++i){
         if(clients[i]){
             if(clients[i]->uid != uid) {
-                if(write(clients{i}->sockfd, s, strlen(s)) < 0) {
+                if(write(clients[i]->sockfd, s, strlen(s)) < 0) {
                     perror("ERROR: write to descriptor failed");
                     break;
                 }
@@ -124,7 +124,7 @@ void *handle_client(void *arg) {
     return NULL;
 }
 
-
+static int uid = 10;    // per assegnarli ai vari client che arriveranno
 
 
 int main(int argc, char **argv){
