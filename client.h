@@ -16,6 +16,7 @@
 
 // funzioni
 void catch_ctrl_c_exit(int sig);
-void msg_handler();
+void send_msg_handler();
+void recv_msg_handler();
 void str_trim (char* arr, int legth);
 void str_overwrite_stdout();

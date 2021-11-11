@@ -46,6 +46,23 @@ void send_msg_handler() {
     catch_ctrl_c_exit(2);
 }
 
+void recv_msg_handler(){
+    char message[LENGTH] = ();
+    while(1) {
+        int receive = recv(sockfd, message, LENGTH, 0);
+        if(receive > 0) {
+            printf("%s", message);
+            str_overwrite_stdout();
+        } else if (receive == 0) {
+            break;   // se non riceve, chiudere il ciclo di ricezione
+        } else {
+            // -1
+            perror("Errore nella ricezione del messaggio: ");
+        }
+        memset(message, 0, sizeof(message));    // azzera il messaggio
+    }
+}
+
 int main(int argc, char **argv) {
     if(argc != 2){
         printf("Porta in uso: %s <port>\n", argv[0]);
