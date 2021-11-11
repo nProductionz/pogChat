@@ -109,4 +109,17 @@ int main(int argc, char **argv) {
         printf("ERROR: creazione del thread\n");
         return EXIT_FAILURE;
     }
+    pthread_t recv_msg_thread;
+    if(pthread_create(&recv_msg_thread, NULL, (void *)recv_msg_handler, NULL) != 0) {
+        perror("ERROR: creazione pthread del recv >\n");
+        return EXIT_FAILURE;
+    }
+    while(1) {
+        if(deadEnd_flag) {   // quando si attiva la deadEnd muore il main
+            printf("\nBella, se beccamo.\n");
+            break;
+        }
+    }
+    close(sockfd);
+    return EXIT_SUCCESS;
 }
