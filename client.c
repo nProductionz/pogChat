@@ -10,7 +10,7 @@ void catch_ctrl_c_exit(int sig) {
 }
 
 // trim per ripulire la stringa nel caso di andate a capo
-void str_trim (char* arr, int legth){
+void str_trim (char* arr, int length){
     int i;
     for( i = 0; i < length; i++) {
         if(arr[i] == '\n'){
@@ -86,6 +86,10 @@ int main(int argc, char **argv) {
     // sperando che tutto funzioni...
     printf("+++ BENVENUTO NELLA POGCHAT +++\n");
     // Creare un thread per inviare e gestire i messaggi
-    //
-
+    pthread_t send_msg_thread;
+    if(pthread_create(&send_msg_thread, NULL, (void *)recv_msg_handler, NULL) != 0){
+        // implementare la funzione per ricevere messaggi
+        printf("ERROR: creazione del thread\n");
+        return EXIT_FAILURE;
+    }
 }
