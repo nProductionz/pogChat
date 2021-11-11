@@ -36,6 +36,17 @@ int main(int argc, char **argv) {
     server_addr.sin_port = htons(port);
 
     // Connessione col server
-    int err = connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));    
+    int err = connect(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    if(err == -1) {
+        printf("ERROR: connect\n");
+        return EXIT_FAILURE;
+    }    
+
+    // Inviare l'username al server
+    send(sockfd, username, 36, 0)
+    // sperando che tutto funzioni...
+    printf("+++ BENVENUTO NELLA POGCHAT +++\n");
+    // Creare un thread per inviare e gestire i messaggi
+    //
 
 }
