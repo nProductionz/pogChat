@@ -12,7 +12,7 @@
 
 // variabili globali
 
-#define LENGTH 2048
+#define LENGTH 2086
 
 // funzioni
 void catch_ctrl_c_exit(int sig);

@@ -10,15 +10,18 @@ typedef struct {
 } client_t;
 
 client_t *clients[MAX_CLIENTS];
+pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
+// pthread mutex per inserire i client in coda
+
 void queue_add(client_t *cl);
 
 // Funzione per aggiungere i client in coda
-void queue_add(client_t *cl){
+void queue_add(client_t *client){
     pthread_mutex_lock(&clients_mutex);
 
     for(int i=0; i < MAX_CLIENTS; ++i) {
         if(!clients[i]){
-            clients[i] = cl;
+            clients[i] = client;
             break;
         }
     }
@@ -31,7 +34,7 @@ void queue_remove(int uid){
     for(int i=0; i < MAX_CLIENTS; ++i){
         if(clients[i]){
             if(clients[i]->uid == uid){
-                clients[i] == NULL;
+                clients[i] = NULL;
                 break;
             }
         }
@@ -48,7 +51,6 @@ void print_client_addr(struct sockaddr_in addr){
     (addr.sin_addr.s_addr & 0xff000000) >> 24);
 }
 
-pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 // Funzione che permette di inviare i messaggi ai vari client
 
@@ -116,12 +118,29 @@ void *handle_client(void *arg) {
 
     // cancellare il client e liberare il thread
     close(client->sockfd);
-    queue_remove(client);
+    queue_remove(client->uid);
     free(client);
     client_counter--;
     pthread_detach(pthread_self());
 
     return NULL;
+}
+
+// trim per ripulire la stringa nel caso di andate a capo
+void str_trim (char* arr, int length){
+    int i;
+    for( i = 0; i < length; i++) {
+        if(arr[i] == '\n'){
+            arr[i] = '\0';
+            break;
+        }
+    }
+}
+
+// per printare il nome prima del messaggio
+void str_overwrite_stdout() {
+    printf("%s", "> ");
+    fflush(stdout);
 }
 
 static int uid = 10;    // per assegnarli ai vari client che arriveranno

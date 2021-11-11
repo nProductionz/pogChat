@@ -27,8 +27,8 @@ void str_overwrite_stdout() {
 }
 
 void send_msg_handler() {
-    char msg[LENGTH] = ();
-    char buffer[LENGTH + 36] = ();
+    char msg[LENGTH] = {};
+    char buffer[LENGTH + 36] = {};
     
     while(1) {
         fgets(msg, LENGTH, stdin);
@@ -47,7 +47,7 @@ void send_msg_handler() {
 }
 
 void recv_msg_handler(){
-    char message[LENGTH] = ();
+    char message[LENGTH] = {};
     while(1) {
         int receive = recv(sockfd, message, LENGTH, 0);
         if(receive > 0) {

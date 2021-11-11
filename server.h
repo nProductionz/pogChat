@@ -14,7 +14,7 @@
 // Variabili globali
 
 #define MAX_CLIENTS 20
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 2086
 
 // Dichiarazione delle funzioni
 
