@@ -100,7 +100,7 @@ void *handle_client(void *arg) {
         if(receive > 0) {
             if(strlen(buffer_output) > 0){
                 send_message(buffer_output, client->uid);
-
+                str_trim(buffer_output, strlen(buffer_output));
                 printf("%s -> %s\n", buffer_output, client->username);
                 }
             }

@@ -31,8 +31,9 @@ void send_msg_handler() {
     char buffer[LENGTH + 36] = {};
     
     while(1) {
+        str_overwrite_stdout();
         fgets(msg, LENGTH, stdin);
-        //
+        str_trim(msg, LENGTH);
 
         if (strcmp(msg, "exit") == 0) {
             break;  // uscire dalla chat
@@ -76,7 +77,7 @@ int main(int argc, char **argv) {
 
     printf("Inserire l'username: ");
     fgets(username, 36, stdin);
-    //
+    str_trim(username,strlen(username));
     // verifica che l'username rispetti i parametri
     if(strlen(username) > 36 || strlen(username) < 2) {
         printf("Non fare scherzi e rispetta le regole col nome.\n");
