@@ -14,7 +14,7 @@
 // Variabili globali
 
 #define MAX_CLIENTS 20
-#define BUFFER_SIZE 2086
+#define BUFFER_SIZE 2048
 
 // Dichiarazione delle funzioni
 
@@ -22,3 +22,5 @@ void send_message(char *s, int uid);
 void *handle_client(void *arg);
 void print_client_addr(struct sockaddr_in addr);
 void queue_remove(int uid);
+void str_trim (char* arr, int length);
+void str_overwrite_stdout();

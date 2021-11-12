@@ -6,7 +6,7 @@ typedef struct {
     struct sockaddr_in address;
     int sockfd;
     int uid;
-    char username[36];
+    char username[32];
 } client_t;
 
 client_t *clients[MAX_CLIENTS];
@@ -57,7 +57,7 @@ void print_client_addr(struct sockaddr_in addr){
 void send_message(char *s, int uid) {
     pthread_mutex_lock(&clients_mutex); // creare i thread nel main
 
-    for(int  i=0; i<MAX_CLIENTS; ++i){
+    for(int i=0; i<MAX_CLIENTS; ++i){
         if(clients[i]){
             if(clients[i]->uid != uid) {
                 if(write(clients[i]->sockfd, s, strlen(s)) < 0) {
@@ -70,17 +70,35 @@ void send_message(char *s, int uid) {
     pthread_mutex_unlock(&clients_mutex);
 }
 
+
+// trim per ripulire la stringa nel caso di andate a capo
+void str_trim (char* arr, int length){
+    int i;
+    for( i = 0; i < length; i++) {
+        if(arr[i] == '\n'){
+            arr[i] = '\0';
+            break;
+        }
+    }
+}
+
+// per printare il nome prima del messaggio
+void str_overwrite_stdout() {
+    printf("%s", "> ");
+    fflush(stdout);
+}
+
 static _Atomic unsigned int client_counter = 0;
 void *handle_client(void *arg) {
     char buffer_output[BUFFER_SIZE];
-    char username[36];
+    char username[32];
     int deadEnd_flag = 0;     // this is a reference
 
     client_counter++;
     client_t *client = (client_t *)arg;
 
     // Assegnazione Username
-    if(recv(client->sockfd, username, 36, 0) <= 0 || strlen(username) < 2 || strlen(username) >= 36-1) {
+    if(recv(client->sockfd, username, 32, 0) <= 0 || strlen(username) < 2 || strlen(username) >= 32-1) {
        printf("Didn't enter the username.\nAborting...\n");
        deadEnd_flag = 1; 
     } else {
@@ -100,6 +118,7 @@ void *handle_client(void *arg) {
         if(receive > 0) {
             if(strlen(buffer_output) > 0){
                 send_message(buffer_output, client->uid);
+
                 str_trim(buffer_output, strlen(buffer_output));
                 printf("%s -> %s\n", buffer_output, client->username);
                 }
@@ -126,22 +145,6 @@ void *handle_client(void *arg) {
     return NULL;
 }
 
-// trim per ripulire la stringa nel caso di andate a capo
-void str_trim (char* arr, int length){
-    int i;
-    for( i = 0; i < length; i++) {
-        if(arr[i] == '\n'){
-            arr[i] = '\0';
-            break;
-        }
-    }
-}
-
-// per printare il nome prima del messaggio
-void str_overwrite_stdout() {
-    printf("%s", "> ");
-    fflush(stdout);
-}
 
 static int uid = 10;    // per assegnarli ai vari client che arriveranno
 

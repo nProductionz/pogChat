@@ -2,7 +2,7 @@
 
 // Variabili globali.
 int sockfd = 0;
-char username[36];
+char username[32];
 volatile sig_atomic_t deadEnd_flag = 0;
 
 void catch_ctrl_c_exit(int sig) {
@@ -28,7 +28,7 @@ void str_overwrite_stdout() {
 
 void send_msg_handler() {
     char msg[LENGTH] = {};
-    char buffer[LENGTH + 36] = {};
+    char buffer[LENGTH + 34] = {};
     
     while(1) {
         str_overwrite_stdout();
@@ -42,7 +42,7 @@ void send_msg_handler() {
             send(sockfd, buffer, strlen(buffer), 0);
         }
         bzero(msg, LENGTH);
-        bzero(buffer, LENGTH + 36);
+        bzero(buffer, LENGTH + 32);
     }
     catch_ctrl_c_exit(2);
 }
@@ -76,10 +76,10 @@ int main(int argc, char **argv) {
     signal(SIGINT, catch_ctrl_c_exit); // Per terminare il processo con CTRL + C
 
     printf("Inserire l'username: ");
-    fgets(username, 36, stdin);
+    fgets(username, 32, stdin);
     str_trim(username,strlen(username));
     // verifica che l'username rispetti i parametri
-    if(strlen(username) > 36 || strlen(username) < 2) {
+    if(strlen(username) > 32 || strlen(username) < 2) {
         printf("Non fare scherzi e rispetta le regole col nome.\n");
         return EXIT_FAILURE;
     }
@@ -100,7 +100,7 @@ int main(int argc, char **argv) {
     }    
 
     // Inviare l'username al server
-    send(sockfd, username, 36, 0);
+    send(sockfd, username, 32, 0);
     // sperando che tutto funzioni...
     printf("+++ BENVENUTO NELLA POGCHAT +++\n");
     // Creare un thread per inviare e gestire i messaggi

@@ -12,11 +12,11 @@
 
 // variabili globali
 
-#define LENGTH 2086
+#define LENGTH 2048
 
 // funzioni
 void catch_ctrl_c_exit(int sig);
 void send_msg_handler();
 void recv_msg_handler();
-void str_trim (char* arr, int legth);
+void str_trim (char* arr, int length);
 void str_overwrite_stdout();
