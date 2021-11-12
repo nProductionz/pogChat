@@ -58,7 +58,6 @@ void recv_msg_handler(){
             break;   // se non riceve, chiudere il ciclo di ricezione
         } else {
             // -1
-            perror("Errore nella ricezione del messaggio: ");
         }
         memset(message, 0, sizeof(message));    // azzera il messaggio
     }
@@ -77,7 +76,7 @@ int main(int argc, char **argv) {
 
     printf("Inserire l'username: ");
     fgets(username, 32, stdin);
-    str_trim(username,strlen(username));
+    str_trim(username, strlen(username));
     // verifica che l'username rispetti i parametri
     if(strlen(username) > 32 || strlen(username) < 2) {
         printf("Non fare scherzi e rispetta le regole col nome.\n");
@@ -105,14 +104,14 @@ int main(int argc, char **argv) {
     printf("+++ BENVENUTO NELLA POGCHAT +++\n");
     // Creare un thread per inviare e gestire i messaggi
     pthread_t send_msg_thread;
-    if(pthread_create(&send_msg_thread, NULL, (void *)recv_msg_handler, NULL) != 0){
+    if(pthread_create(&send_msg_thread, NULL, (void *)send_msg_handler, NULL) != 0){
         // implementare la funzione per ricevere messaggi
         printf("ERROR: creazione del thread\n");
         return EXIT_FAILURE;
     }
     pthread_t recv_msg_thread;
     if(pthread_create(&recv_msg_thread, NULL, (void *)recv_msg_handler, NULL) != 0) {
-        perror("ERROR: creazione pthread del recv >\n");
+        printf("ERROR: creazione pthread del recv >\n");
         return EXIT_FAILURE;
     }
     while(1) {
