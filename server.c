@@ -151,7 +151,7 @@ static int uid = 10;    // per assegnarli ai vari client che arriveranno
 
 int main(int argc, char **argv){
     if(argc != 2){
-        printf("Porta in uso: %s", argv[0]);
+        printf("ERRORE - argomenti\nUscita in corso...\n\n");
         return EXIT_FAILURE;
     }
 
@@ -159,6 +159,8 @@ int main(int argc, char **argv){
     int port = atoi(argv[1]);
     int option = 1;
     int listenfd = 0, connfd = 0;
+
+	printf("Porta in uso %d\n\n",port);
 
     struct sockaddr_in server_addr;
     struct sockaddr_in client_addr;
