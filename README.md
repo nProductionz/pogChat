@@ -1,12 +1,16 @@
 # pogChat
 PogChat: A multithread chatroom for the O.S. Exam 2020/21
 
-Il progetto prevede l'utilizzo di un server e un client per il funzionamento di una Chatroom multithread.
-Il server riceve in ingresso le richieste di connessione dei client, e funziona da tramite per permettere ad ogni client di ricevere i messaggi inviati dagli altri.
+Il progetto permette di comunicare tramite l'utilizzo di client UDP.
 
-Al momento dell'avvio, si lancia il server indicando su che porta accetta le connessioni. (l'ip è impostato di default su 127.0.0.1 per evitare danni)
-In seguito si avviano i client, specificando la stessa porta su cui comunica il server.
+I client si connettono ad un server comune, che fa solo da manager dei messaggi: prende un messaggio da un mittente e lo invia a tutti gli altri client connessi.
 
-All'avvio del client, viene richiesto di inserire uno username, che verrà visualizzato all'interno della chat.
-Dopodiché, il sistema di chat viene avviato ed è possibile iniziare a messaggiare.
-Nel momento in cui un utente digiterà "exit" o la combinazione Ctrl+C, il client "morirà" e il server lo rimuoverà dalla coda dei client attivi, interrompendo il relativo thread.
+Questi da prima son stati inseriti in una struttura connessa (LinkedList artigianale) che permette di avere un elenco di tutti coloro che son connessi al server.
+
+
+I client a loro volta invece utilizzano due thread ciascuno:
+
+1. Permette di controllare se sono presenti nuovi messaggi da parte del server (che gira i messaggi degli altri utenti), li scarica e mostra a schermo.
+2. Permette di inviare messaggi al server, che li invierà agli altri utenti connessi.
+
+Sono stati implementati alcuni comandi utilizzati per il debug del programma, disponibili all'interno del file "utils.h", insieme ad altri elementi utili per entrambi i programmi.
